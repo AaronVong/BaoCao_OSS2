@@ -134,6 +134,25 @@
                 <span class="text--error"><?php echo isset($signuperror["signup"])?$signuperror["signup"]:""; ?></span>
             </form>
         </div>
+        <div class="form-container sign-in-container">
+            <form action="login.php" method="POST">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <input type="text" placeholder="Email" name="email" value="<?php echo $email; ?>"/>
+                <span class="text--error"><?php echo isset($signinerror["email"])?$signinerror["email"]:""; ?></span>
+                <input type="password" placeholder="Password" name="password" />
+                <span class="text--error"><?php echo isset($signinerror["password"])?$signinerror["password"]:""; ?></span>
+                <a href="#">Forgot your password?</a>
+                <button type="submit" name="signin">Sign In</button>
+                <span class="text--error"><?php echo isset($signinerror["signin"])?$signinerror["signin"]:"";?></span>
+                <span class="text--notify"><?php echo $uid!==0?"Đăng ký thành công! Hãy đăng nhập bằng tài khoản của bạn.":"";?></span>
+            </form>
+        </div>
 </body>
 
 </html>
