@@ -103,6 +103,37 @@
          }
      }
     ?>
+     <div class="container <?php echo count($signuperror)>0?'right-panel-active':''?>" id="container">
+        <div class="form-container sign-up-container">
+            <form action="login.php" method="POST">
+                <h1>Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text" placeholder="Name" name="name" value="<?php echo $name; ?>"/>
+                <span class="text--error"><?php echo isset($signuperror["name"])?$signuperror["name"]:""; ?></span>
+
+                <input type="text" placeholder="Email" name="email" value="<?php echo $email; ?>"/>
+                <span class="text--error"><?php echo isset($signuperror["email"])?$signuperror["email"]:""; ?></span>
+
+                <input type="text" placeholder="Phone Number" name="phone" value="<?php echo $phone; ?>"/>
+                <span class="text--error"><?php echo isset($signuperror["phone"])?$signuperror["phone"]:""; ?></span>
+
+                <input type="password" placeholder="Password" name="password">
+                <span class="text--error"><?php echo isset($signuperror["password"])?$signuperror["password"]:""; ?></span>
+
+                <input type="password" placeholder="Verify Your Password" name="repassword" />
+                <span class="text--error"><?php echo isset($signuperror["repassword"])?$signuperror["repassword"]:""; ?></span>
+
+                <input type="text" placeholder="Address" name="address" value="<?php echo $address; ?>"/>
+                <span class="text--error"><?php echo isset($signuperror["address"])?$signuperror["address"]:""; ?></span>
+                <button type="submit" name="signup">Sign Up</button>
+                <span class="text--error"><?php echo isset($signuperror["signup"])?$signuperror["signup"]:""; ?></span>
+            </form>
+        </div>
 </body>
 
 </html>
