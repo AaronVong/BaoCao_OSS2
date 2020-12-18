@@ -84,6 +84,16 @@
                 $_SESSION["cart"]=$cartArr;
             }            
 
+            // nhận Request xóa sản phẩm khỏi giỏ hàng
+            if(isset($_POST["removeId"])){
+                echo "Xóa khỏi giỏ hàng";
+                $rmid = $_POST["removeId"];
+                $tempCart = $_SESSION["cart"];
+                unset($tempCart[$rmid]);
+                $_SESSION["cart"]=$tempCart;
+            }
+
+            
         ?>
 
         <?php 
