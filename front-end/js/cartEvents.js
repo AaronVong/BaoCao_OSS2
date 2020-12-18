@@ -62,6 +62,10 @@ $(document).ready(() => {
             window.location.reload();
           }
         );
+      } else {
+        removeCartItem(id, () => {
+          window.location.reload();
+        });
       }
     });
   });
