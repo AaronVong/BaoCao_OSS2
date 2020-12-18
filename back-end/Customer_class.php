@@ -30,5 +30,16 @@
             $rs = $this->executeQuery("SELECT * FROM tn_customer WHERE customer_name LIKE :key OR customer_phone LIKE :key",[":key"=>'%'.$key.'%']);
             return $rs;
         }
+        function signUp($name, $email, $address, $phone,$password){
+            $uid=0;
+            $query = "INSERT INTO tn_customer(customer_name,customer_email,customer_address,customer_phone,customer_password) VALUES(:name,:email,:address,:phone,:password)";
+
+            $rows = $this->executeChangeDataQuery($query, [":name"=>$name,":phone"=>$phone,":address"=>$address,":email"=>$email,":password"=>md5($password)]);
+            if($rows>0){
+                $uid = $this->lastIndexInserted();
+            }
+
+           return $uid;
+        }
     }
 ?>
