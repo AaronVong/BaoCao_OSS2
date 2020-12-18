@@ -93,7 +93,17 @@
                 $_SESSION["cart"]=$tempCart;
             }
 
-            
+            // lấy danh sách trong giỏ hàng để in ra
+            if(isset($_SESSION["cart"])){
+                $saleTotal=0;
+                $priceTotal=0;
+                $cartArr = $_SESSION["cart"];
+                if(count($cartArr)===0){
+                    exit("<h1 class='text--notify'>Giỏ hàng rỗng</h1>");
+                }
+            }else{
+                exit("<h1 class='text--notify'>Giỏ hàng rỗng</h1>");
+            }
         ?>
 
         <?php 
