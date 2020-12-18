@@ -104,6 +104,25 @@
             }else{
                 exit("<h1 class='text--notify'>Giỏ hàng rỗng</h1>");
             }
+
+            // yêu cầu thay đổi trạng thái đơn hàng của khách hàng
+            if(isset($_POST["userAction"])){
+                $oid = $_POST["oid"];
+                $statusName = $_POST["userAction"];
+                $statusId= $_status->getStatusIdByName($statusName);
+                $_order->updateOrderStatusById($oid,$statusId);
+            }
+
+            // yêu càu xem đơn hàng của khách hàng
+            if(isset($_GET["action"])){
+                $action = $_GET["action"];
+                if($action=="myorders"){
+                    $cid = $_customer->getColumnByEmail("id",$_SESSION["user"]["email"]);
+                    $customer_orders = $_order->getCustomerOrders($cid);
+                    include "./front-end/src/screen/customerordersscreen.php";
+                    exit();
+                }
+            }
         ?>
 
         <?php 
