@@ -41,6 +41,11 @@
 
            return $uid;
         }
+        function isEmailExist($email){
+            $query= "SELECT count(*) AS 'match' FROM tn_customer WHERE customer_email=:email";
+            $rs = $this->executeQuery($query, [":email"=>$email]);
+            return $rs[0]["match"]; 
+        }
         function signIn($email, $password){
             $query = "SELECT COUNT(*) as 'match' FROM tn_customer WHERE :email = customer_email AND md5(:password) = customer_password";
             $rs = $this->executeQuery($query,[":email"=>$email,":password"=>$password]);
