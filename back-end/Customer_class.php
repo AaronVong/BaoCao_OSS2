@@ -41,5 +41,10 @@
 
            return $uid;
         }
+        function signIn($email, $password){
+            $query = "SELECT COUNT(*) as 'match' FROM tn_customer WHERE :email = customer_email AND md5(:password) = customer_password";
+            $rs = $this->executeQuery($query,[":email"=>$email,":password"=>$password]);
+            return $rs[0]["match"];
+        }
     }
 ?>
