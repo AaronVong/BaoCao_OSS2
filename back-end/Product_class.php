@@ -67,11 +67,82 @@
             return $result;
         }
 
+        function addNewProduct($pname, $pthumb, $pprice,$psale,$pstock,$phighlight,$producerid,$categoryid,$statusid){
+            $isSuccess=true;
+            $query = "INSERT INTO tn_product(product_name,product_thumb,product_originprice,product_sale,product_instock,product_ishighlight,producer_id,category_id,status_id)
+            VALUES(:pname,:pthumb,:pprice,:psale,:pstock,:phighlight,:producerid,:catid,:statusid)";
+            if(strlen($pname)<=0)return 0;
+            $this->beginTransactionNow();
+            $rows = $this->executeChangeDataQuery($query, [":pname"=>$pname,":pthumb"=> $pthumb["name"],":pprice"=>$pprice,":psale"=>$psale,":pstock"=>$pstock,":phighlight"=>$phighlight,":producerid"=>$producerid,":catid"=>$categoryid,":statusid"=>$statusid]);
+            if($rows>0){
+                $pid = $this->lastIndexInserted();
+                try{
+                    $this->uploadImage($pthumb,$pid);
+                }catch(ErrorException $err){
+                    echo "<span class='notify__text'>".$err->getMessage()."</span>";
+                    $isSuccess=false;
+                }
+            }else{
+                $isSuccess=false;
+            }
 
+            if($isSuccess==false){
+                $this->rollbackNow();
+                $rows=$isSuccess;
+                return $rows;
+            }
+            $this->commitNow();
+            return $rows;
+        }
 
+        function uploadImage($image, $pid){
+            $isSuccess=true;
+            if($image["tmp_name"]===''){
+                return 0;
+            }
+            $query = "SELECT producer_name,category_name FROM tn_product
+            JOIN tn_producer ON tn_product.producer_id = tn_producer.producer_id
+            JOIN tn_category ON tn_product.category_id = tn_category.category_id 
+            WHERE product_id=:pid";
+            $rs = $this->executeQuery($query,[":pid"=>$pid]);
+            if(count($rs)>0){
+                $target_dir = "front-end/images/products/".$rs[0]["producer_name"]."/".$rs[0]["category_name"]."s/";
+                if(!is_dir($target_dir)){
+                    if(!mkdir($target_dir)){
+                        echo "Không thể tạo thực mục, chứa hình ảnh<br>Thêm sản phẩm thất bại";
+                    }
+                }
+                $target_file = $target_dir . basename($image["name"]);
+                if($this->isImageExist($target_file)){
+                    return $isSuccess;
+                }
+                if(!move_uploaded_file($image["tmp_name"], $target_file)){
+                    $isSuccess=false;
+                    throw new ErrorExeception("Không thể upload hình ảnh");
+                }
+            }else{
+                $isSuccess=false;
+            }
 
+            return $isSuccess;
+        }
 
-
+        function deleteProductById($id){
+            $query = "DELETE FROM tn_product WHERE product_id=:id";
+            // $stament = $this->prepareQuery($query);
+            // $stament->bindValue(":id",$id);
+            // if($this->beginTransactionNow()){
+            //     echo "transaction begined";
+            // }else return;
+            // if($stament->execute()){
+            //     $this->commitNow();
+            // }else{
+            //     $this->rollbackNow();
+            // }
+            // return $stament->rowCount();
+            $deletedRows = $this->executeChangeDataQuery($query,[":id"=>"$id"]);
+            return $deletedRows;
+        }
 
         function getAllHeadphoneAndPortableCharger(){
             $query = "SELECT product_id,product_name,product_thumb,product_originprice,product_sale,producer_name,category_name, status_name,product_ishighlight,product_instock FROM tn_product
