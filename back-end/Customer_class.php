@@ -30,5 +30,26 @@
             $rs = $this->executeQuery("SELECT * FROM tn_customer WHERE customer_name LIKE :key OR customer_phone LIKE :key",[":key"=>'%'.$key.'%']);
             return $rs;
         }
+        function signUp($name, $email, $address, $phone,$password){
+            $uid=0;
+            $query = "INSERT INTO tn_customer(customer_name,customer_email,customer_address,customer_phone,customer_password) VALUES(:name,:email,:address,:phone,:password)";
+
+            $rows = $this->executeChangeDataQuery($query, [":name"=>$name,":phone"=>$phone,":address"=>$address,":email"=>$email,":password"=>md5($password)]);
+            if($rows>0){
+                $uid = $this->lastIndexInserted();
+            }
+
+           return $uid;
+        }
+        function isEmailExist($email){
+            $query= "SELECT count(*) AS 'match' FROM tn_customer WHERE customer_email=:email";
+            $rs = $this->executeQuery($query, [":email"=>$email]);
+            return $rs[0]["match"]; 
+        }
+        function signIn($email, $password){
+            $query = "SELECT COUNT(*) as 'match' FROM tn_customer WHERE :email = customer_email AND md5(:password) = customer_password";
+            $rs = $this->executeQuery($query,[":email"=>$email,":password"=>$password]);
+            return $rs[0]["match"];
+        }
     }
 ?>

@@ -1,4 +1,4 @@
-<h1>Chức năng đang trong quá trình thi công...</h1>
+
 <?php 
         if(isset($_POST["ustatus"])){
             $oid = $_POST["oid"];
