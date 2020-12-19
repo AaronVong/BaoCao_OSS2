@@ -76,7 +76,7 @@
     }
 ?>
 
-<h1 class="function-title">Quán Lý Sản Phẩm</h1>
+<h1 class="function-title"> Trang Quán Lý Sản Phẩm</h1>
 <?php echo isset($_GET["editproduct"])?"<h1 class='notify__text'>Cập nhật sản phẩm có mã: ".$_GET["editproduct"]."</h1>":""?>
     <form action="admin.php?fnc=qlsp" method="post" class="admin-panel" enctype="multipart/form-data">
         <div class="control-group">
